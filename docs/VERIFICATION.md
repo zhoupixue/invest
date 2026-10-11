@@ -8,4 +8,10 @@
 - 生产公开文件没有独立数据来源模块、原始请求错误、凭据或演示数据。
 - 仅新增并部署 Cloudflare `invest` 项目。「有序」项目没有任何写入。
 
-自动化文件已存入独立私有 GitHub 仓库 zhoupixue/invest，待 CLOUDFLARE_API_TOKEN Secret 配置后，需手动运行一次 Actions 验证完整部署链路。
+自动化文件已存入独立私有 GitHub 仓库 zhoupixue/invest。用户已确认配置 CLOUDFLARE_API_TOKEN Secret，并手动运行 Invest daily close。
+
+2026-10-11，运行 https://github.com/zhoupixue/invest/actions/runs/38133677943 在执行任何步骤前失败。用户提供的 Annotation 为 “The job was not started because recent account payments have failed or your spendi”（原文截断）。阻塞位于 GitHub 账户付款或支出限制，尚不能区分具体原因；没有执行 Python 更新或 Cloudflare 部署步骤，因此 Secret 的实际可用性及完整自动更新链路仍待账户限制解除后验证。网站当前保留已验证的 2026-10-09 数据。
+
+随后用户提供的 Billing 截图确认账户 2,000 分钟免费额度已用完。用户明确授权公开 invest 仓库并完成操作，API 已确认 private=false、visibility=public；当前提交的 25 个文本文件中未检出常见凭据格式或硬编码长凭据。
+
+重新运行同一工作流（job 114455857728）后，依赖安装、交易日判断、构建、9 项 Python 检查与 DOM 交互检查全部通过。当前为周日，按设计部署已有真实报告，没有取新数据。最后部署步骤访问 Invest Pages 项目返回 Authentication error [code: 10000]；Wrangler 识别到 Account API Token 及正确账户 ID，但没有成功访问项目。尚需核实该 Token 的 Cloudflare Pages Edit 权限、资源范围及限制，完整自动部署仍未通过。
