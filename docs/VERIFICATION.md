@@ -15,3 +15,7 @@
 随后用户提供的 Billing 截图确认账户 2,000 分钟免费额度已用完。用户明确授权公开 invest 仓库并完成操作，API 已确认 private=false、visibility=public；当前提交的 25 个文本文件中未检出常见凭据格式或硬编码长凭据。
 
 重新运行同一工作流（job 114455857728）后，依赖安装、交易日判断、构建、9 项 Python 检查与 DOM 交互检查全部通过。当前为周日，按设计部署已有真实报告，没有取新数据。最后部署步骤访问 Invest Pages 项目返回 Authentication error [code: 10000]；Wrangler 识别到 Account API Token 及正确账户 ID，但没有成功访问项目。尚需核实该 Token 的 Cloudflare Pages Edit 权限、资源范围及限制，完整自动部署仍未通过。
+
+用户修改 Token 权限后，最终重试 job 114457422174 全部步骤 success；9 项 Python 检查与 DOM 交互检查通过，Wrangler 成功上传并完成生产部署 43080695-1df8-4d93-8050-c861dd684e6e。Cloudflare API 确认该部署为 invest 的 canonical production deployment、branch=main、stage=success。
+
+生产首页再次核验 HTTP 200 且带 CSP；线上 data.json 的五大指标卡片、概览及全部金融序列与原始报告完全一致，demo=false，数据日期 2026-10-09，网站构建更新时间 2026-10-11T11:20:15.238896+00:00。周日手动运行验证了交易日判断、已有数据构建、检查与自动部署链路；实际交易日的取新数据和快照提交仍需首次定时运行检验。工作流调度仍为周一至五 UTC 22:17，未增加生产 push 触发。
