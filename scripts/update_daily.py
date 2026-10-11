@@ -30,7 +30,7 @@ def main():
     if day is None: print('跳过：非交易日或收盘未满一小时');return
     # Run entirely in staging, so data failure never overwrites last known good snapshot.
     import shutil,tempfile
-    with tempfile.TemporaryDirectory(prefix='invest-') as tmp:
+    with tempfile.TemporaryDirectory(prefix='ndx5s-') as tmp:
         staging=Path(tmp);data=staging/'data';data.mkdir();snap=ROOT/'data/ndx_fwd_eps.csv'
         if snap.exists():shutil.copy2(snap,data/snap.name)
         subprocess.run([sys.executable,str(ROOT/'investment_daily.py'),'--out',str(staging/'reports'),'--data',str(data)],check=True,timeout=2400)

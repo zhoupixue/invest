@@ -1,4 +1,4 @@
-# Invest · 投资日报
+# NDX5S · 纳指投资看板
 
 手机优先的公开交互式投资日报。独立 Cloudflare Pages 项目 `ndx5s`，生产网址：
 https://ndx5s.pages.dev

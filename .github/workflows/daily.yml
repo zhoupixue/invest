@@ -1,4 +1,4 @@
-name: Invest daily close
+name: NDX5S daily close
 on:
   schedule:
     - cron: '17 22 * * 1-5'
@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: invest-production
+  group: ndx5s-production
   cancel-in-progress: false
 jobs:
   update:
@@ -41,7 +41,7 @@ jobs:
           git add data/ndx_fwd_eps.csv data/spx_close.json
           git add -f reports/latest.html
           if ! git diff --cached --quiet; then
-            git commit -m 'Update Invest after market close'
+            git commit -m 'Update NDX5S after market close'
             git push
           fi
       - uses: actions/setup-node@v4
@@ -55,7 +55,7 @@ jobs:
       - name: Verify interactive UI
         if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
         run: node tests/ui.test.cjs
-      - name: Deploy independent Invest Pages
+      - name: Deploy NDX5S Pages
         if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

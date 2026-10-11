@@ -1,4 +1,4 @@
-name: Validate Invest
+name: Validate NDX5S
 on:
   push:
     branches: [main]

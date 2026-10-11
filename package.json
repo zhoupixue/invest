@@ -1,5 +1,5 @@
 {
-  "name": "invest-pages",
+  "name": "ndx5s-pages",
   "private": true,
   "scripts": {
     "build": "python3 scripts/build_site.py",
