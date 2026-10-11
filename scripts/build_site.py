@@ -110,6 +110,13 @@ def build(report, output, policy_path):
     output.mkdir(parents=True,exist_ok=True)
     for p in (ROOT/'web').iterdir():
         if p.is_file(): shutil.copy2(p,output/p.name)
+    # Version presentation assets so an already-open browser gets the current design.
+    index=output/'index.html'
+    html=index.read_text()
+    for name in ('style.css','app.js'):
+        version=hashlib.sha256((output/name).read_bytes()).hexdigest()[:12]
+        html=html.replace('/'+name+'"','/'+name+'?v='+version+'"')
+    index.write_text(html)
     (output/'data.json').write_text(json.dumps(out,ensure_ascii=False,allow_nan=False))
     (output/'chart.umd.js').write_text(engine.chartjs())
     print('网站已构建：',output,'；公开模块',sum(m['available'] for m in out['modules']),'/5')
