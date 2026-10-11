@@ -1,0 +1,26 @@
+name: Validate Invest
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['data/ndx_fwd_eps.csv', 'reports/latest.html']
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: pip install -r requirements.txt
+      - run: npm ci --no-audit --no-fund
+      - run: python scripts/build_site.py
+      - run: npm test

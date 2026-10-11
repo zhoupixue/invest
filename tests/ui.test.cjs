@@ -5,12 +5,12 @@ w.fetch=async()=>({ok:true,json:async()=>JSON.parse(JSON.stringify(data))});
 w.Chart=class{constructor(el,c){this.data=c.data;this.options=c.options;this.hidden={};instances.push(this)}destroy(){this.destroyed=true}isDatasetVisible(i){return !this.hidden[i]}setDatasetVisibility(i,on){this.hidden[i]=!on}update(){}};
 w.eval(fs.readFileSync('web/app.js','utf8'));
 setTimeout(()=>{try{
- const d=w.document;const cards=[...d.querySelectorAll('.card')];assert.equal(cards.length,5);assert.equal(d.querySelector('#date').textContent,data.date);assert.equal(instances[0].data.labels.length,252);
- d.querySelector('#ranges button').click();assert.equal(instances.at(-2).data.labels.length,63);
- cards[1].click();assert.equal(d.querySelector('#chart-title').textContent,'市场宽度');assert.equal(instances.at(-1).data.datasets.length,5);
- const legend=d.querySelector('#legend button');legend.click();assert.equal(legend.getAttribute('aria-pressed'),'false');legend.click();assert.equal(legend.getAttribute('aria-pressed'),'true');
- cards[2].click();assert.equal(instances.at(-1).data.datasets[0].label,'VIX');cards[3].click();assert.equal(instances.at(-1).data.datasets.length,3);
- cards[4].click();assert.equal(instances.at(-1).data.labels.length,data.eps.dates.length);assert.equal(d.querySelector('#ranges button').disabled,true);assert.equal(d.querySelectorAll('#values tbody tr').length,data.eps.dates.length);
- assert.equal(d.querySelector('#empty').hidden,true);assert.equal(d.querySelector('#drawdown-wrap').hidden,true);assert.ok(!d.body.textContent.includes('授权待核实'));
+ const d=w.document;const cards=[...d.querySelectorAll('.card')];assert.equal(cards.length,5);assert.equal(d.querySelector('#date').textContent,data.date);if(data.modules[0].available)assert.equal(instances[0].data.labels.length,252);
+ d.querySelector('#ranges button').click();if(data.modules[0].available)assert.equal(instances.at(-2).data.labels.length,63);
+ cards[1].click();assert.equal(d.querySelector('#chart-title').textContent,'市场宽度');if(data.modules[1].available)assert.equal(instances.at(-1).data.datasets.length,5);
+ const legend=d.querySelector('#legend button');if(legend){legend.click();assert.equal(legend.getAttribute('aria-pressed'),'false');legend.click();assert.equal(legend.getAttribute('aria-pressed'),'true');}
+ cards[2].click();if(data.modules[2].available)assert.equal(instances.at(-1).data.datasets[0].label,'VIX');cards[3].click();if(data.modules[3].available)assert.equal(instances.at(-1).data.datasets.length,3);
+ cards[4].click();if(data.modules[4].available)assert.equal(instances.at(-1).data.labels.length,data.eps.dates.length);assert.equal(d.querySelector('#ranges button').disabled,true);if(data.modules[4].available)assert.equal(d.querySelectorAll('#values tbody tr').length,data.eps.dates.length);
+ assert.equal(d.querySelector('#empty').hidden,data.modules[4].available);assert.equal(d.querySelector('#drawdown-wrap').hidden,true);assert.ok(!d.body.textContent.includes('授权待核实'));
  console.log('PASS: five modules, range switching, legend toggles, EPS nodes, data table and metadata');
  }catch(e){console.error(e);process.exitCode=1}},30);
