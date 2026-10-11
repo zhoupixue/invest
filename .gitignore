@@ -1,0 +1,12 @@
+venv/
+node_modules/
+dist/
+.wrangler/
+__pycache__/
+*.pyc
+.DS_Store
+.env*
+.dev.vars*
+run.log
+reports/
+deployment-manifest.json

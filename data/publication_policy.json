@@ -1,0 +1,16 @@
+{
+  "reviewed_at": "2026-10-11",
+  "modules": {
+    "价格": [],
+    "宽度": [],
+    "VIX": [],
+    "实际利率": [],
+    "Forward EPS": []
+  },
+  "note": "用户明确要求直接公开使用现有数据；第三方许可状态见 docs/DATA_RIGHTS_AUDIT.md，未宣称获得数据许可。",
+  "mode": "operator_directed",
+  "attributions": [
+    "VIX © Cboe Global Markets；NDX © Nasdaq, Inc.；行情及分析师数据：Yahoo Finance；权重：Slickcharts。",
+    "10Y 实际利率：U.S. Department of the Treasury / Federal Reserve H.15，via FRED。"
+  ]
+}
