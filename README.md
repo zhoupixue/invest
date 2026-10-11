@@ -1,7 +1,7 @@
 # Invest · 投资日报
 
-手机优先的公开交互式投资日报。独立 Cloudflare Pages 项目 `invest`，生产网址：
-https://invest-56s.pages.dev
+手机优先的公开交互式投资日报。独立 Cloudflare Pages 项目 `ndx5s`，生产网址：
+https://ndx5s.pages.dev
 
 ## 保留原五大指标
 
@@ -9,9 +9,9 @@ https://invest-56s.pages.dev
 
 `web/` 是外置静态界面；`scripts/build_site.py` 校验真实数据并导出静态站点；`scripts/update_daily.py` 检查 NYSE 交易日和收盘时间、调用原脚本、暂存成功结果后更新日报。
 
-页面支持五模块切换、3M/6M/1Y/3Y 区间、图例曲线开关、触摸/悬停数值、指标规则、无障碍数据表和系统深色主题。EPS 图按原全部趋势节点展示，时间区间按钮禁用，避免改变起点=100 口径。
+页面支持五模块切换、3M/6M/1Y/3Y 区间、图例曲线开关、触摸/悬停数值、指标规则和系统深色主题。EPS 图按原全部趋势节点展示，时间区间按钮禁用，避免改变起点=100 口径。
 
-页面保留数据日期、网站更新时间、各模块原始最新观测日期、覆盖率及数据缺失/滞后提示。旧 HTML 没有生成时间，明确显示「原报告未记录取数完成时间」；新的自动日报会记录真实取数完成时间。页面不显示独立数据来源模块，署名位于页脚。
+页面保留数据日期、网站更新时间、各模块原始最新观测日期、覆盖率及数据缺失/滞后提示。旧 HTML 没有生成时间，明确显示「原报告未记录取数完成时间」；新的自动日报会记录真实取数完成时间。页面不显示独立数据来源模块，许可与署名文件由页脚链接提供。
 
 ## 本地构建
 
@@ -31,11 +31,11 @@ GitHub Actions `.github/workflows/daily.yml` 每个星期一至五 UTC 22:17（�
 
 手动 Run workflow：交易日窗口内取新数据，否则部署仓库中的最新真实报告。每次运行保存 EPS 快照及最新报告，使用原报告生成方式；取数/计算/验证/部署失败会显示为 Actions 失败。
 
-需要设置一个仓库 Actions Secret：`CLOUDFLARE_API_TOKEN`，权限仅为本账户 Cloudflare Pages Edit。账户 ID 已固定，部署命令固定为 `--project-name invest --branch main`。不购买域名，不操作「有序」项目。
+需要设置一个仓库 Actions Secret：`CLOUDFLARE_API_TOKEN`，权限仅为本账户 Cloudflare Pages Edit。账户 ID 已固定，部署命令固定为 `--project-name ndx5s --branch main`。不购买域名，不操作「有序」项目。
 
 ```sh
 npm ci
-npx wrangler pages deploy dist --project-name invest --branch main
+npx wrangler pages deploy dist --project-name ndx5s --branch main
 ```
 
 ## 审计
