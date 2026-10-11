@@ -23,7 +23,7 @@ venv/bin/python -m unittest discover -s tests -v
 python3 -m http.server 8765 --directory dist
 ```
 
-`reports/latest.html` 作为初始真实报告存入私有仓库，仅 `dist/` 会公开部署。禁止发布 `--demo` 结果；禁止非有限数值、不一致日期/长度与未来数据。取数得到旧日期时自动更新失败，不覆盖上一版网站。
+仓库已按用户要求改为公开，代码、`reports/latest.html` 与 EPS 快照均可公开访问；Cloudflare 部署目录为 `dist/`。部署凭据只保存在 GitHub Actions Secret。禁止发布 `--demo` 结果；禁止非有限数值、不一致日期/长度与未来数据。取数得到旧日期时自动更新失败，不覆盖上一版网站。
 
 ## 自动更新
 
