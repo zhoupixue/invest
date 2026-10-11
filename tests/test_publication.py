@@ -9,7 +9,7 @@ class PublicationTests(unittest.TestCase):
     def setUpClass(cls):
         cls.data=load_report(ROOT/'reports/latest.html')
     def test_calculation_engine_unchanged(self):
-        self.assertEqual(hashlib.sha256((ROOT/'investment_daily.py').read_bytes()).hexdigest(),ORIGINAL_SHA)
+        self.assertEqual(hashlib.sha256((ROOT/'ndx5s_daily.py').read_bytes()).hexdigest(),ORIGINAL_SHA)
     def test_directed_public_data_equals_report(self):
         policy=json.loads((ROOT/'data/publication_policy.json').read_text())
         public=public_data(self.data,policy)

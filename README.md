@@ -5,7 +5,7 @@ https://ndx5s.pages.dev
 
 ## 保留原五大指标
 
-`investment_daily.py` 原文件及全部计算、阈值、数据源顺序保持不变。网站读取原报告 JSON，不在前端重新计算金融指标。EPS 每日快照保存在 `data/ndx_fwd_eps.csv`；初始仅一条，原逻辑使用分析师修正趋势。
+`ndx5s_daily.py` 原文件及全部计算、阈值、数据源顺序保持不变。网站读取原报告 JSON，不在前端重新计算金融指标。EPS 每日快照保存在 `data/ndx_fwd_eps.csv`；初始仅一条，原逻辑使用分析师修正趋势。
 
 `web/` 是外置静态界面；`scripts/build_site.py` 校验真实数据并导出静态站点；`scripts/update_daily.py` 检查 NYSE 交易日和收盘时间、调用原脚本、暂存成功结果后更新日报。
 

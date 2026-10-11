@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 
 def fetch_spx(report_date, output):
-    import investment_daily as engine
+    import ndx5s_daily as engine
     errors=[]
     def cboe_spx():
         import io,pandas as pd

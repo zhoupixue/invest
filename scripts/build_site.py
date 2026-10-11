@@ -97,14 +97,14 @@ def spx_data(path, dates):
     return [by_date.get(date) for date in dates]
 
 def build(report, output, policy_path):
-    if hashlib.sha256((ROOT/'investment_daily.py').read_bytes()).hexdigest() != ORIGINAL_SHA:
+    if hashlib.sha256((ROOT/'ndx5s_daily.py').read_bytes()).hexdigest() != ORIGINAL_SHA:
         raise ValueError('原计算脚本发生变化，需要重新审核')
     d=load_report(report)
     policy=json.loads(Path(policy_path).read_text())
     out=public_data(d,policy)
     if out["modules"][2]["available"] and policy.get("mode")=="operator_directed":
         out["spx"]=spx_data(ROOT/"data/spx_close.json",d["dates"])
-    import investment_daily as engine
+    import ndx5s_daily as engine
     output=Path(output)
     if output.resolve() in (ROOT.resolve(),(ROOT/'reports').resolve(),(ROOT/'data').resolve()): raise ValueError('不可覆盖原始目录')
     output.mkdir(parents=True,exist_ok=True)

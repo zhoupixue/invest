@@ -33,7 +33,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix='ndx5s-') as tmp:
         staging=Path(tmp);data=staging/'data';data.mkdir();snap=ROOT/'data/ndx_fwd_eps.csv'
         if snap.exists():shutil.copy2(snap,data/snap.name)
-        subprocess.run([sys.executable,str(ROOT/'investment_daily.py'),'--out',str(staging/'reports'),'--data',str(data)],check=True,timeout=2400)
+        subprocess.run([sys.executable,str(ROOT/'ndx5s_daily.py'),'--out',str(staging/'reports'),'--data',str(data)],check=True,timeout=2400)
         report=staging/'reports/latest.html';d=load_report(report)
         if d['date'] != str(day): raise ValueError(f'NDX 最新日期 {d["date"]} 不等于本交易日 {day}；保留上一版')
         from update_spx import fetch_spx
@@ -44,7 +44,7 @@ def main():
         report.write_text(text)
         (ROOT/'reports').mkdir(exist_ok=True)
         shutil.copy2(report,ROOT/'reports/latest.html')
-        shutil.copy2(report,ROOT/'reports'/f'investment_daily_{day}.html')
+        shutil.copy2(report,ROOT/'reports'/f'ndx5s_daily_{day}.html')
         if (data/snap.name).exists():shutil.copy2(data/snap.name,snap)
         shutil.copy2(data/'spx_close.json',ROOT/'data/spx_close.json')
     subprocess.run([sys.executable,str(ROOT/'scripts/build_site.py')],check=True)
