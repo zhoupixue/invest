@@ -19,3 +19,7 @@
 用户修改 Token 权限后，最终重试 job 114457422174 全部步骤 success；9 项 Python 检查与 DOM 交互检查通过，Wrangler 成功上传并完成生产部署 43080695-1df8-4d93-8050-c861dd684e6e。Cloudflare API 确认该部署为 invest 的 canonical production deployment、branch=main、stage=success。
 
 生产首页再次核验 HTTP 200 且带 CSP；线上 data.json 的五大指标卡片、概览及全部金融序列与原始报告完全一致，demo=false，数据日期 2026-10-09，网站构建更新时间 2026-10-11T11:20:15.238896+00:00。周日手动运行验证了交易日判断、已有数据构建、检查与自动部署链路；实际交易日的取新数据和快照提交仍需首次定时运行检验。工作流调度仍为周一至五 UTC 22:17，未增加生产 push 触发。
+
+2026-10-11 页面调整与网址迁移：新建独立 Pages 项目 ndx5s，精确获得 https://ndx5s.pages.dev 。生产部署 2b542590-04cb-454f-af87-0ac133765768 stage=success、branch=main，代码提交 2408f9c9599d42f69606dc06d02729c2c26e463e。恢复原 HTML 的白底、灰卡片、蓝色选中状态、双列布局和 760px 最大宽度，日期日报与指标标题放大，品牌改为 Invest · NDX投资日报；移除介绍区、右上角小字、图表数据表、数据提示区和页面来源区，保留理解指标说明、更新时间、观测日期、缺失状态与许可署名文件。
+
+本地 9 项 Python 检查与更新后的 DOM 检查通过；GitHub Validate Invest run 38136857329 success。生产首页 HTTP 200，HTML、CSS、JS、Chart.js 和许可文件与本地字节一致，线上五大指标全部数值及原概览与原报告一致，demo=false、date=2026-10-09。每日 Actions 仅将部署目标由 invest 改为 ndx5s，调度和指标逻辑未变。旧 invest 项目保留，「有序」未改动。真实浏览器像素检查仍受浏览器控制工具超时限制。
