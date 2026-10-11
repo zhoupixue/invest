@@ -38,7 +38,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/ndx_fwd_eps.csv
+          git add data/ndx_fwd_eps.csv data/spx_close.json
           git add -f reports/latest.html
           if ! git diff --cached --quiet; then
             git commit -m 'Update Invest after market close'

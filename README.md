@@ -46,3 +46,7 @@ npx wrangler pages deploy dist --project-name ndx5s --branch main
 - `web/THIRD_PARTY_NOTICES.txt`：Chart.js MIT 许可。
 
 本项目没有修改「有序」仓库或 Cloudflare 项目。
+
+## SPX 对照曲线
+
+宽度页面仅展示 NDX 的 MA50/MA200 比例，状态保持原四项综合计算口径。VIX 图新增 SPX 实际收盘点位，左轴为 VIX、右轴为 SPX 点位，不做归一化或缩放。SPX 由独立补充脚本读取 Cboe 官方 CSV，失败时尝试原引擎 Yahoo/Stooq 获取函数；缺失或日期未覆盖日报时不绘制替代曲线。真实收盘序列保存于 `data/spx_close.json`，每日工作流同步更新。

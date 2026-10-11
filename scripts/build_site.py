@@ -83,12 +83,27 @@ def public_data(d, policy):
         out['attributions'] = policy.get('attributions', [])
     return out
 
+def spx_data(path, dates):
+    if not Path(path).exists(): return [None]*len(dates)
+    rows=json.loads(Path(path).read_text()).get('values',[])
+    observed=[r['date'] for r in rows]
+    if observed != sorted(set(observed)): raise ValueError('SPX 日期顺序无效')
+    for row in rows:
+        dt.date.fromisoformat(row['date'])
+        if not isinstance(row['close'],(int,float)) or not math.isfinite(row['close']) or row['close']<=0:
+            raise ValueError('SPX 收盘数据无效')
+    if not rows or observed[-1]!=dates[-1]: return [None]*len(dates)
+    by_date={r['date']:r['close'] for r in rows}
+    return [by_date.get(date) for date in dates]
+
 def build(report, output, policy_path):
     if hashlib.sha256((ROOT/'investment_daily.py').read_bytes()).hexdigest() != ORIGINAL_SHA:
         raise ValueError('原计算脚本发生变化，需要重新审核')
     d=load_report(report)
     policy=json.loads(Path(policy_path).read_text())
     out=public_data(d,policy)
+    if out["modules"][2]["available"] and policy.get("mode")=="operator_directed":
+        out["spx"]=spx_data(ROOT/"data/spx_close.json",d["dates"])
     import investment_daily as engine
     output=Path(output)
     if output.resolve() in (ROOT.resolve(),(ROOT/'reports').resolve(),(ROOT/'data').resolve()): raise ValueError('不可覆盖原始目录')

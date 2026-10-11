@@ -36,6 +36,8 @@ def main():
         subprocess.run([sys.executable,str(ROOT/'investment_daily.py'),'--out',str(staging/'reports'),'--data',str(data)],check=True,timeout=2400)
         report=staging/'reports/latest.html';d=load_report(report)
         if d['date'] != str(day): raise ValueError(f'NDX 最新日期 {d["date"]} 不等于本交易日 {day}；保留上一版')
+        from update_spx import fetch_spx
+        fetch_spx(d['date'],data/'spx_close.json')
         d['generated_at']=dt.datetime.now(dt.timezone.utc).isoformat()
         text=report.read_text();import re
         text=re.sub(r'const D=.*?;\s*const \$',lambda m:'const D='+json.dumps(d,ensure_ascii=False,allow_nan=False).replace('</','<\\/')+';\nconst $',text,count=1,flags=re.S)
@@ -44,5 +46,6 @@ def main():
         shutil.copy2(report,ROOT/'reports/latest.html')
         shutil.copy2(report,ROOT/'reports'/f'investment_daily_{day}.html')
         if (data/snap.name).exists():shutil.copy2(data/snap.name,snap)
+        shutil.copy2(data/'spx_close.json',ROOT/'data/spx_close.json')
     subprocess.run([sys.executable,str(ROOT/'scripts/build_site.py')],check=True)
 if __name__=='__main__':main()
