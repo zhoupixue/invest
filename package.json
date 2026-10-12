@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "python3 scripts/build_site.py",
-    "test": "python3 -m unittest discover -s tests && node tests/ui.test.cjs",
+    "test": "python3 -m unittest discover -s tests && node tests/ui.test.cjs && node tests/qdii-ui.test.cjs",
     "preview": "python3 -m http.server 8765 --directory dist"
   },
   "devDependencies": {

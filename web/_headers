@@ -7,3 +7,8 @@
   Cache-Control: no-cache, max-age=0, must-revalidate
 /
   Cache-Control: no-cache
+
+/qdii.json
+  Cache-Control: no-cache, max-age=0, must-revalidate
+/qdii-status.json
+  Cache-Control: no-cache, max-age=0, must-revalidate

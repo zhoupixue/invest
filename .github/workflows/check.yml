@@ -2,7 +2,7 @@ name: Validate NDX5S
 on:
   push:
     branches: [main]
-    paths-ignore: ['data/ndx_fwd_eps.csv', 'reports/latest.html']
+    paths-ignore: ['data/ndx_fwd_eps.csv', 'reports/latest.html', 'data/qdii.json', 'data/qdii_status.json']
   pull_request:
 permissions:
   contents: read

@@ -16,3 +16,5 @@ Nasdaq: Nasdaq-100 Index
 Yahoo Finance、Slickcharts、U.S. Treasury / Federal Reserve
 
 SPX: S&P 500® Index，收盘序列来自 Cboe 官方 CSV。
+
+QDII monitoring facts: FEIXIA public homepage https://feixia.org/ . Incorporated at the operator's instruction. Public accessibility and robots permission do not establish a redistribution license. No official-fund verification is claimed.

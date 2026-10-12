@@ -50,3 +50,7 @@ npx wrangler pages deploy dist --project-name ndx5s --branch main
 ## SPX 对照曲线
 
 宽度页面仅展示 NDX 的 MA50/MA200 比例，状态保持原四项综合计算口径。VIX 图新增 SPX 实际收盘点位，左轴为 VIX、右轴为 SPX 点位，不做归一化或缩放。SPX 由独立补充脚本读取 Cboe 官方 CSV，失败时尝试原引擎 Yahoo/Stooq 获取函数；缺失或日期未覆盖日报时不绘制替代曲线。真实收盘序列保存于 `data/spx_close.json`，每日工作流同步更新。
+
+## QDII 额度栏目
+
+同一网站顶部切换「纳指日报 / QDII额度」，直达网址 https://ndx5s.pages.dev/#qdii 。数据仅读取用户指定的 FEIXIA 公开首页，A/C 合并但保留各自代码、状态和额度。独立 Actions 每日北京时间 09:00、11:00 检查；自动静默窗口为 11:30 至次日 07:30，首次人工初始化和手动运行除外。源站更新时间为相对提示，采集时间另行记录；失败保留上一版。完整口径、范围及限制见 docs/QDII_INTEGRATION.md。

@@ -113,10 +113,17 @@ def build(report, output, policy_path):
     # Version presentation assets so an already-open browser gets the current design.
     index=output/'index.html'
     html=index.read_text()
-    for name in ('style.css','app.js'):
+    for name in ('style.css','app.js','qdii.js'):
         version=hashlib.sha256((output/name).read_bytes()).hexdigest()[:12]
         html=html.replace('/'+name+'"','/'+name+'?v='+version+'"')
     index.write_text(html)
+    for filename,target in [('qdii.json','qdii.json'),('qdii_status.json','qdii-status.json')]:
+        source=ROOT/'data'/filename
+        if source.exists():
+            if filename=='qdii.json':
+                from update_qdii import validate_snapshot
+                validate_snapshot(json.loads(source.read_text()))
+            shutil.copy2(source,output/target)
     (output/'data.json').write_text(json.dumps(out,ensure_ascii=False,allow_nan=False))
     (output/'chart.umd.js').write_text(engine.chartjs())
     print('网站已构建：',output,'；公开模块',sum(m['available'] for m in out['modules']),'/5')

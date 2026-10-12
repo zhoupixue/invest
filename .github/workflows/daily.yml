@@ -54,7 +54,9 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Verify interactive UI
         if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
-        run: node tests/ui.test.cjs
+        run: |
+          node tests/ui.test.cjs
+          node tests/qdii-ui.test.cjs
       - name: Deploy NDX5S Pages
         if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
         env:
