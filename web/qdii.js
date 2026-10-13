@@ -27,10 +27,6 @@ async function load(){
  }catch(e){data=null;byId('qdii-error').hidden=false;byId('qdii-content').hidden=true;console.error(e);}
  finally{loading=false;byId('qdii-loading').hidden=true;}
 }
-function switchView(view){const show=view==='qdii';byId('ndx-view').hidden=show;byId('qdii-view').hidden=!show;byId('nav-ndx').setAttribute('aria-pressed',String(!show));byId('nav-qdii').setAttribute('aria-pressed',String(show));if(show)load();else window.dispatchEvent(new Event('resize'));}
-byId('nav-ndx').onclick=()=>{history.replaceState(null,'',location.pathname);switchView('ndx');};
-byId('nav-qdii').onclick=()=>{history.replaceState(null,'','#qdii');switchView('qdii');};
 byId('qdii-retry').onclick=load;
-window.addEventListener('hashchange',()=>switchView(location.hash==='#qdii'?'qdii':'ndx'));
-switchView(location.hash==='#qdii'?'qdii':'ndx');
+load();
 })();
