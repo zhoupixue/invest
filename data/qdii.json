@@ -2,16 +2,16 @@
   "schema_version": 1,
   "source": "FEIXIA",
   "source_url": "https://feixia.org/",
-  "fetched_at": "2026-10-12T11:00:04.750407+00:00",
+  "fetched_at": "2026-10-13T13:08:31.987610+00:00",
   "source_update_label": "2小时前",
   "source_updated_at": null,
-  "source_total_yuan": 180.0,
-  "source_sha256": "c448d597068b5ab5228ec9cff6fafdd9432d630721243c02112b197b81ac1595",
+  "source_total_yuan": 200.0,
+  "source_sha256": "4d7691299d61fbbc0faf916de7dc03ecfd355b891f391bf52d93bb86625d3efd",
   "share_count": 43,
   "group_count": 22,
   "counts": {
-    "limited": 20,
-    "paused": 23
+    "limited": 22,
+    "paused": 21
   },
   "funds": [
     {
@@ -41,6 +41,22 @@
     {
       "code": "008971",
       "name": "大成纳斯达克100ETF联接(QDII)C",
+      "share_class": "C",
+      "status": "limited",
+      "limit_yuan": 10.0,
+      "source_label": "10元"
+    },
+    {
+      "code": "270042",
+      "name": "广发纳斯达克100ETF联接(QDII)A",
+      "share_class": "A",
+      "status": "limited",
+      "limit_yuan": 10.0,
+      "source_label": "10元"
+    },
+    {
+      "code": "006479",
+      "name": "广发纳斯达克100ETF联接(QDII)C",
       "share_class": "C",
       "status": "limited",
       "limit_yuan": 10.0,
@@ -185,22 +201,6 @@
     {
       "code": "006075",
       "name": "博时标普500ETF联接(QDII)C",
-      "share_class": "C",
-      "status": "paused",
-      "limit_yuan": null,
-      "source_label": "暂停申购"
-    },
-    {
-      "code": "270042",
-      "name": "广发纳斯达克100ETF联接(QDII)A",
-      "share_class": "A",
-      "status": "paused",
-      "limit_yuan": null,
-      "source_label": "暂停申购"
-    },
-    {
-      "code": "006479",
-      "name": "广发纳斯达克100ETF联接(QDII)C",
       "share_class": "C",
       "status": "paused",
       "limit_yuan": null,
@@ -622,17 +622,17 @@
           "code": "270042",
           "name": "广发纳斯达克100ETF联接(QDII)A",
           "share_class": "A",
-          "status": "paused",
-          "limit_yuan": null,
-          "source_label": "暂停申购"
+          "status": "limited",
+          "limit_yuan": 10.0,
+          "source_label": "10元"
         },
         {
           "code": "006479",
           "name": "广发纳斯达克100ETF联接(QDII)C",
           "share_class": "C",
-          "status": "paused",
-          "limit_yuan": null,
-          "source_label": "暂停申购"
+          "status": "limited",
+          "limit_yuan": 10.0,
+          "source_label": "10元"
         }
       ]
     },
@@ -859,5 +859,24 @@
       ]
     }
   ],
-  "changes": []
+  "changes": [
+    {
+      "code": "006479",
+      "name": "广发纳斯达克100ETF联接(QDII)C",
+      "observed_at": "2026-10-13T13:08:31.987610+00:00",
+      "previous_status": "paused",
+      "previous_limit_yuan": null,
+      "status": "limited",
+      "limit_yuan": 10.0
+    },
+    {
+      "code": "270042",
+      "name": "广发纳斯达克100ETF联接(QDII)A",
+      "observed_at": "2026-10-13T13:08:31.987610+00:00",
+      "previous_status": "paused",
+      "previous_limit_yuan": null,
+      "status": "limited",
+      "limit_yuan": 10.0
+    }
+  ]
 }

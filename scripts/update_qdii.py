@@ -139,7 +139,7 @@ def make_snapshot(parsed, mapping, previous=None, captured=None, digest=None):
 
 def eligible(moment=None):
     local=(moment or now()).astimezone(TZ)
-    return dt.time(7,30)<=local.time().replace(tzinfo=None)<dt.time(11,30)
+    return dt.time(7,30)<=local.time().replace(tzinfo=None)<dt.time(23,30)
 
 def fetch_snapshot():
     req=urllib.request.Request(SOURCE,headers={'User-Agent':'NDX5S-QDII-monitor/1.0 (+https://ndx5s.pages.dev/)','Accept':'text/html'})

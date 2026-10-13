@@ -39,7 +39,7 @@ class QDIITests(unittest.TestCase):
                 with self.assertRaises(ValueError):q.main()
             self.assertEqual(p.read_text(),'unchanged');self.assertFalse(json.loads((root/'data/qdii_status.json').read_text())['success'])
     def test_quiet_window(self):
-        for hour,minute,result in [(7,29,False),(7,30,True),(11,29,True),(11,30,False),(23,0,False)]:
+        for hour,minute,result in [(7,29,False),(7,30,True),(11,29,True),(11,30,True),(15,28,True),(23,29,True),(23,30,False)]:
             self.assertEqual(q.eligible(dt.datetime(2026,10,12,hour,minute,tzinfo=q.TZ)),result)
     def test_real_snapshot_matches_mapping_and_summary(self):
         d=json.loads((ROOT/'data/qdii.json').read_text());q.validate_snapshot(d)
