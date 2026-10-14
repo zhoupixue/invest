@@ -2,16 +2,16 @@
   "schema_version": 1,
   "source": "FEIXIA",
   "source_url": "https://feixia.org/",
-  "fetched_at": "2026-10-13T13:08:31.987610+00:00",
-  "source_update_label": "2小时前",
+  "fetched_at": "2026-10-14T05:55:59.939904+00:00",
+  "source_update_label": "4小时前",
   "source_updated_at": null,
-  "source_total_yuan": 200.0,
-  "source_sha256": "4d7691299d61fbbc0faf916de7dc03ecfd355b891f391bf52d93bb86625d3efd",
+  "source_total_yuan": 180.0,
+  "source_sha256": "200f8d7425d25de5181c354f454a6c3d41a4dad5bbbe0190267acea4ab2ec32b",
   "share_count": 43,
   "group_count": 22,
   "counts": {
-    "limited": 22,
-    "paused": 21
+    "limited": 20,
+    "paused": 23
   },
   "funds": [
     {
@@ -169,22 +169,6 @@
     {
       "code": "019442",
       "name": "万家纳斯达克100指数发起式（QDII）C",
-      "share_class": "C",
-      "status": "limited",
-      "limit_yuan": 10.0,
-      "source_label": "10元"
-    },
-    {
-      "code": "019547",
-      "name": "招商纳斯达克100ETF发起式QDII(A类)",
-      "share_class": "A",
-      "status": "limited",
-      "limit_yuan": 10.0,
-      "source_label": "10元"
-    },
-    {
-      "code": "019548",
-      "name": "招商纳斯达克100ETF发起式QDII(C类)",
       "share_class": "C",
       "status": "limited",
       "limit_yuan": 10.0,
@@ -353,6 +337,22 @@
     {
       "code": "012870",
       "name": "易方达纳斯达克100ETF联接C人民币",
+      "share_class": "C",
+      "status": "paused",
+      "limit_yuan": null,
+      "source_label": "暂停申购"
+    },
+    {
+      "code": "019547",
+      "name": "招商纳斯达克100ETF发起式QDII(A类)",
+      "share_class": "A",
+      "status": "paused",
+      "limit_yuan": null,
+      "source_label": "暂停申购"
+    },
+    {
+      "code": "019548",
+      "name": "招商纳斯达克100ETF发起式QDII(C类)",
       "share_class": "C",
       "status": "paused",
       "limit_yuan": null,
@@ -576,17 +576,17 @@
           "code": "019547",
           "name": "招商纳斯达克100ETF发起式QDII(A类)",
           "share_class": "A",
-          "status": "limited",
-          "limit_yuan": 10.0,
-          "source_label": "10元"
+          "status": "paused",
+          "limit_yuan": null,
+          "source_label": "暂停申购"
         },
         {
           "code": "019548",
           "name": "招商纳斯达克100ETF发起式QDII(C类)",
           "share_class": "C",
-          "status": "limited",
-          "limit_yuan": 10.0,
-          "source_label": "10元"
+          "status": "paused",
+          "limit_yuan": null,
+          "source_label": "暂停申购"
         }
       ]
     },
@@ -860,6 +860,24 @@
     }
   ],
   "changes": [
+    {
+      "code": "019548",
+      "name": "招商纳斯达克100ETF发起式QDII(C类)",
+      "observed_at": "2026-10-14T05:55:59.939904+00:00",
+      "previous_status": "limited",
+      "previous_limit_yuan": 10.0,
+      "status": "paused",
+      "limit_yuan": null
+    },
+    {
+      "code": "019547",
+      "name": "招商纳斯达克100ETF发起式QDII(A类)",
+      "observed_at": "2026-10-14T05:55:59.939904+00:00",
+      "previous_status": "limited",
+      "previous_limit_yuan": 10.0,
+      "status": "paused",
+      "limit_yuan": null
+    },
     {
       "code": "006479",
       "name": "广发纳斯达克100ETF联接(QDII)C",
