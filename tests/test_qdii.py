@@ -38,9 +38,10 @@ class QDIITests(unittest.TestCase):
             with patch.object(q,'ROOT',root),patch.object(q,'fetch_snapshot',side_effect=ValueError('test failure')),patch.object(sys,'argv',['update_qdii.py','--force']):
                 with self.assertRaises(ValueError):q.main()
             self.assertEqual(p.read_text(),'unchanged');self.assertFalse(json.loads((root/'data/qdii_status.json').read_text())['success'])
-    def test_quiet_window(self):
-        for hour,minute,result in [(7,29,False),(7,30,True),(11,29,True),(11,30,True),(15,28,True),(23,29,True),(23,30,False)]:
-            self.assertEqual(q.eligible(dt.datetime(2026,10,12,hour,minute,tzinfo=q.TZ)),result)
+    def test_all_hours_are_eligible_including_former_quiet_window(self):
+        for hour in range(24):
+            for minute in (0,29,30,37,59):
+                self.assertTrue(q.eligible(dt.datetime(2026,10,12,hour,minute,tzinfo=q.TZ)))
     def test_real_snapshot_matches_mapping_and_summary(self):
         d=json.loads((ROOT/'data/qdii.json').read_text());q.validate_snapshot(d)
         groups=q.group_funds(d['funds'],json.loads((ROOT/'data/qdii_groups.json').read_text()))

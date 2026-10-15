@@ -12,7 +12,13 @@ class CalendarTests(unittest.TestCase):
     def test_summer_and_winter(self):
         self.assertEqual(str(self.at('2026-10-09T22:17:00+00:00')),'2026-10-09')
         self.assertEqual(str(self.at('2026-12-24T22:17:00+00:00')),'2026-12-24')
-        self.assertIsNone(self.at('2026-12-23T21:30:00+00:00'))
+        self.assertIsNone(self.at('2026-12-23T21:14:59+00:00'))
+        self.assertEqual(str(self.at('2026-12-23T21:15:00+00:00')),'2026-12-23')
+        self.assertIsNone(self.at('2026-12-23T20:17:00+00:00'))
+        self.assertEqual(str(self.at('2026-12-23T21:17:00+00:00')),'2026-12-23')
+        self.assertIsNone(self.at('2026-10-09T20:14:59+00:00'))
+        self.assertEqual(str(self.at('2026-10-09T20:17:00+00:00')),'2026-10-09')
     def test_early_close(self):
         self.assertEqual(str(self.at('2026-11-27T19:17:00+00:00')),'2026-11-27')
-        self.assertIsNone(self.at('2026-11-27T18:30:00+00:00'))
+        self.assertIsNone(self.at('2026-11-27T18:14:59+00:00'))
+        self.assertEqual(str(self.at('2026-11-27T18:15:00+00:00')),'2026-11-27')

@@ -18,7 +18,7 @@ def eligible(now):
     schedule=mcal.get_calendar('NYSE').schedule(start_date=day,end_date=day)
     if schedule.empty: return None
     close=schedule.iloc[0]['market_close'].to_pydatetime()
-    return day if now >= close + dt.timedelta(minutes=60) else None
+    return day if now >= close + dt.timedelta(minutes=15) else None
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--gate-only',action='store_true');a=ap.parse_args()
@@ -27,7 +27,7 @@ def main():
         if os.getenv('GITHUB_OUTPUT'):
             with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write(f'eligible={str(day is not None).lower()}\n')
         print('交易日已收盘' if day else '非交易日或尚未到收盘后更新窗口');return
-    if day is None: print('跳过：非交易日或收盘未满一小时');return
+    if day is None: print('跳过：非交易日或收盘未满十五分钟');return
     # Run entirely in staging, so data failure never overwrites last known good snapshot.
     import shutil,tempfile
     with tempfile.TemporaryDirectory(prefix='ndx5s-') as tmp:

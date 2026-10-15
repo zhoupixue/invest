@@ -138,8 +138,8 @@ def make_snapshot(parsed, mapping, previous=None, captured=None, digest=None):
         funds=funds,groups=groups,changes=history[:200])
 
 def eligible(moment=None):
-    local=(moment or now()).astimezone(TZ)
-    return dt.time(7,30)<=local.time().replace(tzinfo=None)<dt.time(23,30)
+    # 全天开放；保留函数和 --gate-only 供旧启动器兼容使用。
+    return True
 
 def fetch_snapshot():
     req=urllib.request.Request(SOURCE,headers={'User-Agent':'NDX5S-QDII-monitor/1.0 (+https://ndx5s.pages.dev/)','Accept':'text/html'})
@@ -158,7 +158,6 @@ def main():
         if os.environ.get('GITHUB_OUTPUT'):
             with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('eligible='+value+'\n')
         return
-    if not a.force and not eligible(): print('静默期间不检查');return
     attempted=now().isoformat()
     try:
         snapshot=validate_snapshot(fetch_snapshot());atomic(ROOT/'data/qdii.json',snapshot)
