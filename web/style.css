@@ -14,3 +14,5 @@
 #qdii-view{margin-top:28px;padding-top:18px;border-top:1px solid var(--bd)}#qdii-title{font-size:18px;line-height:1.4;font-weight:600;margin:0 0 14px}#qdii{scroll-margin-top:24px}@media(min-width:700px){#qdii-title{font-size:20px}#qdii-view{margin-top:32px;padding-top:20px}}
 
 .overview-date{font-size:18px;line-height:1.4}@media(min-width:700px){.overview-date,.analysis h2{font-size:20px}}
+
+.analysis-heading{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 10px}.analysis .analysis-heading h2{margin:0}#help-toggle{display:inline-flex;align-items:center;gap:5px;min-height:36px;border:0;background:transparent;padding:4px 0;font-size:12px;color:var(--ac)}.help-chevron{display:inline-block;font-size:16px;line-height:1}#help-toggle[aria-expanded=true] .help-chevron{transform:rotate(180deg)}#indicator-help{margin:0 0 12px;padding:12px;border:0;border-radius:8px;background:var(--sf)}#indicator-help p{margin:0}@media(min-width:700px){#help-toggle{font-size:13px}}
