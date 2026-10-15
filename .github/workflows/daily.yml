@@ -31,7 +31,7 @@ jobs:
       - name: Fetch and calculate with the original engine
         if: steps.gate.outputs.eligible == 'true' || github.event_name != 'schedule'
         run: |
-          if [ '${{ steps.gate.outputs.eligible }}' = 'true' ]; then
+          if [ '${{ steps.gate.outputs.eligible }}' = 'true' ] && [ '${{ github.event_name }}' != 'push' ]; then
             python scripts/update_daily.py
           else
             python scripts/build_site.py
