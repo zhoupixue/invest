@@ -4,7 +4,7 @@
 
 .state-dot{font-size:17px;vertical-align:middle;line-height:1}.rules>strong{font-size:14px;font-weight:700;color:var(--tx)}
 
-.overview-alert{color:var(--bad)}
+.overview-date,.overview-body,.overview-alert{display:block}.overview-date{font-weight:700;margin-bottom:4px}.overview-alert{color:var(--bad);margin-top:4px}
 
 @media(max-width:699px){.card-head{flex-wrap:nowrap;gap:4px;min-height:25px}.card-name{font-size:16px;white-space:nowrap}.state{font-size:12px}.state-dot{font-size:14px}.card:nth-child(4) .card-name{font-size:14px}.card:nth-child(4) .state{font-size:11px}.card:nth-child(4) .state-dot{font-size:12px}.card:nth-child(4) .card-index{font-size:14px}}
 @media(max-width:359px){.card{padding:10px}.card[aria-pressed=true]{padding:9px}.card-name{font-size:15px}.card:nth-child(4) .card-name{font-size:12px}.card:nth-child(4) .card-index{font-size:12px}.card:nth-child(4) .state{font-size:10px}.card:nth-child(4) .state-dot{font-size:11px}}

@@ -29,16 +29,22 @@ function render(){chart?.destroy();drawdown?.destroy();chart=drawdown=null;$('le
 }
 function marketSummary(d){
  const current=d.ndx?.at(-1),previous=d.ndx?.at(-2);
- if(typeof current!=='number'||!Number.isFinite(current))return d.date?d.date+'，':'';
- const point=current.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
- let text=(d.date?d.date+'，':'')+'NDX '+point+'点';
+ if(typeof current!=='number'||!Number.isFinite(current))return d.date?d.date+'：':'';
+ const point=Math.trunc(current).toLocaleString('zh-CN');
+ let text=(d.date?d.date+'：':'')+'NDX '+point+'点';
  if(typeof previous==='number'&&Number.isFinite(previous)&&previous>0){
   const change=(current/previous-1)*100;
   text+='，日涨跌 '+(change>0?'+':'')+change.toFixed(2)+'%';
  }
  return text+'，';
 }
-async function start(){try{const res=await fetch('/data.json',{cache:'no-cache'});if(!res.ok)throw Error('HTTP '+res.status);D=await res.json();const overview=marketSummary(D)+D.overview.replace(/^NDX\s*/,'').replace(/：/g,'').replace(/；/g,'，'),attention=overview.match(/需关注[^。]*。?/);if(attention){$('overview').replaceChildren(document.createTextNode(overview.slice(0,attention.index)),elem('span','overview-alert',attention[0]),document.createTextNode(overview.slice(attention.index+attention[0].length)));}else{$('overview').textContent=overview;}
+async function start(){try{const res=await fetch('/data.json',{cache:'no-cache'});if(!res.ok)throw Error('HTTP '+res.status);D=await res.json();const overview=marketSummary(D)+D.overview.replace(/^NDX\s*/,'').replace(/：/g,'').replace(/；/g,'，');
+ const prefix=D.date?D.date+'：':'',body=overview.slice(prefix.length),attention=body.match(/需关注[^。]*。?/),parts=[];
+ if(prefix)parts.push(elem('strong','overview-date',prefix));
+ parts.push(elem('span','overview-body',attention?body.slice(0,attention.index):body));
+ if(attention){parts.push(elem('span','overview-alert',attention[0]));const tail=body.slice(attention.index+attention[0].length);if(tail.trim())parts.push(document.createTextNode(tail));}
+ $('overview').replaceChildren(...parts);
+
  D.cards.forEach((c,i)=>{if(i===1&&D.modules[1].available){const latest=a=>a.findLast(v=>v!=null);const extra=c.s[1]?.includes(' · 价格')?c.s[1].slice(c.s[1].indexOf(' · 价格')):'';c={...c,v:Math.round(latest(D.br.n200))+'%',s:['NDX 站上 MA200','MA50：'+Math.round(latest(D.br.n50))+'%'+extra]};}const b=elem('button','card');b.type='button';b.setAttribute('aria-pressed',String(i===cur));const h=elem('span','card-head'),name=elem('span','card-name');name.append(elem('span','card-index','0'+(i+1)),document.createTextNode(c.t.slice(3)));const state=elem('span','state '+c.st[1]);const dot=elem('span','state-dot','●');dot.setAttribute('aria-hidden','true');state.append(dot,document.createTextNode(' '+c.st[0]));h.append(name,state);b.append(h,elem('span','card-value',c.v),...c.s.filter(Boolean).map(t=>elem('span','card-desc',t)));b.onclick=()=>{cur=i;[...$('cards').children].forEach((x,j)=>x.setAttribute('aria-pressed',String(i===j)));render()};$('cards').append(b)});
  [['3M',63],['6M',126],['1Y',252],['3Y',756]].forEach(([name,n])=>{const b=elem('button',null,name);b.type='button';b.setAttribute('aria-pressed',String(n===N));b.onclick=()=>{N=n;[...$('ranges').children].forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render()};$('ranges').append(b)});
  render();
