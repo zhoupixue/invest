@@ -13,4 +13,4 @@
 
 #qdii-view{margin-top:28px;padding-top:18px;border-top:1px solid var(--bd)}#qdii-title{font-size:18px;line-height:1.4;font-weight:600;margin:0 0 14px}#qdii{scroll-margin-top:24px}@media(min-width:700px){#qdii-title{font-size:20px}#qdii-view{margin-top:32px;padding-top:20px}}
 
-.overview-date{font-size:18px;line-height:1.35}@media(min-width:700px){.overview-date{font-size:20px}}@media(max-width:699px){.overview-date{font-size:16px}}@media(max-width:359px){.overview-date{font-size:15px}}
+.overview-date{font-size:18px;line-height:1.4}@media(min-width:700px){.overview-date,.analysis h2{font-size:20px}}
