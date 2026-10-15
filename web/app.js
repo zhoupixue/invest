@@ -27,7 +27,18 @@ function render(){chart?.destroy();drawdown?.destroy();chart=drawdown=null;$('le
  const opts=options(m.unit,m.bounds);if(m.right){opts.scales.y.title={display:true,text:'VIX'};opts.scales.y1={position:'right',grid:{drawOnChartArea:false},title:{display:true,text:'SPX（点）'},ticks:{color:'#89958b',callback:v=>fmt(v,'点')}};}chart=new Chart($('chart'),{type:'line',data:{labels:m.dates,datasets:ds},options:opts});$('chart').setAttribute('aria-label',titles[cur]+'，轻触或悬停查看数值');m.series.forEach((s,i)=>{const b=elem('button');b.type='button';b.setAttribute('aria-pressed','true');const sw=elem('span','swatch');sw.style.borderColor=s.borderColor;if(s.borderDash)sw.style.borderTopStyle='dashed';b.append(sw,elem('span',null,s.label));b.onclick=()=>{const on=!chart.isDatasetVisible(i);chart.setDatasetVisibility(i,on);chart.update();b.setAttribute('aria-pressed',String(on))};$('legend').append(b)});
  if(m.sub)drawdown=new Chart($('drawdown'),{type:'line',data:{labels:m.dates,datasets:[line('距历史高点回撤',m.sub,'#b74e4c',{fill:true,backgroundColor:'#b74e4c15'})]},options:options('%',{max:0})});
 }
-async function start(){try{const res=await fetch('/data.json',{cache:'no-cache'});if(!res.ok)throw Error('HTTP '+res.status);D=await res.json();$('date').textContent=D.date;const overview=D.overview.replace(/：/g,'').replace(/；/g,'，'),attention=overview.match(/需关注[^。]*。?/);if(attention){$('overview').replaceChildren(document.createTextNode(overview.slice(0,attention.index)),elem('span','overview-alert',attention[0]),document.createTextNode(overview.slice(attention.index+attention[0].length)));}else{$('overview').textContent=overview;}
+function marketSummary(d){
+ const current=d.ndx?.at(-1),previous=d.ndx?.at(-2);
+ if(typeof current!=='number'||!Number.isFinite(current))return '';
+ const point=current.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+ let text='纳指100 '+point+'点';
+ if(typeof previous==='number'&&Number.isFinite(previous)&&previous>0){
+  const change=(current/previous-1)*100;
+  text+='，日涨跌 '+(change>0?'+':'')+change.toFixed(2)+'%';
+ }
+ return text+'。';
+}
+async function start(){try{const res=await fetch('/data.json',{cache:'no-cache'});if(!res.ok)throw Error('HTTP '+res.status);D=await res.json();$('date').textContent=D.date;const overview=marketSummary(D)+D.overview.replace(/：/g,'').replace(/；/g,'，'),attention=overview.match(/需关注[^。]*。?/);if(attention){$('overview').replaceChildren(document.createTextNode(overview.slice(0,attention.index)),elem('span','overview-alert',attention[0]),document.createTextNode(overview.slice(attention.index+attention[0].length)));}else{$('overview').textContent=overview;}
  D.cards.forEach((c,i)=>{if(i===1&&D.modules[1].available){const latest=a=>a.findLast(v=>v!=null);const extra=c.s[1]?.includes(' · 价格')?c.s[1].slice(c.s[1].indexOf(' · 价格')):'';c={...c,v:Math.round(latest(D.br.n200))+'%',s:['NDX 站上 MA200','MA50：'+Math.round(latest(D.br.n50))+'%'+extra]};}const b=elem('button','card');b.type='button';b.setAttribute('aria-pressed',String(i===cur));const h=elem('span','card-head'),name=elem('span','card-name');name.append(elem('span','card-index','0'+(i+1)),document.createTextNode(c.t.slice(3)));const state=elem('span','state '+c.st[1]);const dot=elem('span','state-dot','●');dot.setAttribute('aria-hidden','true');state.append(dot,document.createTextNode(' '+c.st[0]));h.append(name,state);b.append(h,elem('span','card-value',c.v),...c.s.filter(Boolean).map(t=>elem('span','card-desc',t)));b.onclick=()=>{cur=i;[...$('cards').children].forEach((x,j)=>x.setAttribute('aria-pressed',String(i===j)));render()};$('cards').append(b)});
  [['3M',63],['6M',126],['1Y',252],['3Y',756]].forEach(([name,n])=>{const b=elem('button',null,name);b.type='button';b.setAttribute('aria-pressed',String(n===N));b.onclick=()=>{N=n;[...$('ranges').children].forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render()};$('ranges').append(b)});
  render();

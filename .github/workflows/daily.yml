@@ -1,5 +1,8 @@
 name: NDX5S daily close
 on:
+  push:
+    branches: [main]
+    paths: ['web/**', 'scripts/build_site.py']
   schedule:
     # 北京时间次日 04:17、05:17 提前取数，06:17 兜底补跑。
     - cron: '17 20,21,22 * * 1-5'
@@ -15,6 +18,8 @@ jobs:
     timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -24,7 +29,7 @@ jobs:
         id: gate
         run: python scripts/update_daily.py --gate-only
       - name: Fetch and calculate with the original engine
-        if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
+        if: steps.gate.outputs.eligible == 'true' || github.event_name != 'schedule'
         run: |
           if [ '${{ steps.gate.outputs.eligible }}' = 'true' ]; then
             python scripts/update_daily.py
@@ -32,10 +37,10 @@ jobs:
             python scripts/build_site.py
           fi
       - name: Validate
-        if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
+        if: steps.gate.outputs.eligible == 'true' || github.event_name != 'schedule'
         run: python -m unittest discover -s tests
       - name: Preserve EPS snapshots and last report
-        if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
+        if: steps.gate.outputs.eligible == 'true' || github.event_name != 'schedule'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -46,20 +51,20 @@ jobs:
             git push
           fi
       - uses: actions/setup-node@v4
-        if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
+        if: steps.gate.outputs.eligible == 'true' || github.event_name != 'schedule'
         with:
           node-version: '22'
           cache: npm
       - name: Install deploy tooling
-        if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
+        if: steps.gate.outputs.eligible == 'true' || github.event_name != 'schedule'
         run: npm ci --no-audit --no-fund
       - name: Verify interactive UI
-        if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
+        if: steps.gate.outputs.eligible == 'true' || github.event_name != 'schedule'
         run: |
           node tests/ui.test.cjs
           node tests/qdii-ui.test.cjs
       - name: Deploy NDX5S Pages
-        if: steps.gate.outputs.eligible == 'true' || github.event_name == 'workflow_dispatch'
+        if: steps.gate.outputs.eligible == 'true' || github.event_name != 'schedule'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: '939edb81f78bc31df2f9b60b6223a0fb'
