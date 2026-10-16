@@ -39,7 +39,7 @@ function marketSummary(d){
  }
  return text+'，';
 }
-async function start(){try{const res=await fetch('/data.json',{cache:'no-cache'});if(!res.ok)throw Error('HTTP '+res.status);D=await res.json();const overview=marketSummary(D)+D.overview.replace(/^NDX\s*/,'').replace(/：/g,'').replace(/；/g,'，');
+async function start(){try{const res=await fetch('/data.json',{cache:'no-store'});if(!res.ok)throw Error('HTTP '+res.status);D=await res.json();const overview=marketSummary(D)+D.overview.replace(/^NDX\s*/,'').replace(/：/g,'').replace(/；/g,'，');
  const prefix=D.date?D.date+'：':'',body=overview.slice(prefix.length),attention=body.match(/需关注[^。]*。?/),parts=[];
  if(prefix)parts.push(elem('strong','overview-date',prefix));
  parts.push(elem('span','overview-body',attention?body.slice(0,attention.index):body));

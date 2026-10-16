@@ -19,7 +19,7 @@ function render(){
 async function load(){
  if(loading||data)return;loading=true;byId('qdii-loading').hidden=false;byId('qdii-error').hidden=true;
  try{
-  const r=await fetch('/qdii.json',{cache:'no-cache'});if(!r.ok)throw Error('QDII HTTP '+r.status);data=await r.json();if(data.schema_version!==1||!Array.isArray(data.groups)||!data.groups.length)throw Error('QDII schema');
+  const r=await fetch('/qdii.json',{cache:'no-store'});if(!r.ok)throw Error('QDII HTTP '+r.status);data=await r.json();if(data.schema_version!==1||!Array.isArray(data.groups)||!data.groups.length)throw Error('QDII schema');
   const available=data.groups.filter(g=>g.shares.some(s=>s.status!=='paused')).length,paused=data.groups.filter(g=>g.shares.every(s=>s.status==='paused')).length;
   byId('qdii-metrics').replaceChildren();
   for(const [title,value] of [['可申购基金',available+'只'],['暂停申购基金',paused+'只'],['份额额度合计',money(data.source_total_yuan)]]){const c=node('div','qdii-metric');c.append(node('span',null,title),node('strong',null,value));byId('qdii-metrics').append(c);}

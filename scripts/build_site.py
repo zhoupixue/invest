@@ -5,10 +5,12 @@ import datetime as dt
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 import re
 import shutil
 import sys
+import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -107,25 +109,37 @@ def build(report, output, policy_path):
     import ndx5s_daily as engine
     output=Path(output)
     if output.resolve() in (ROOT.resolve(),(ROOT/'reports').resolve(),(ROOT/'data').resolve()): raise ValueError('不可覆盖原始目录')
-    output.mkdir(parents=True,exist_ok=True)
-    for p in (ROOT/'web').iterdir():
-        if p.is_file(): shutil.copy2(p,output/p.name)
-    # Version presentation assets so an already-open browser gets the current design.
-    index=output/'index.html'
-    html=index.read_text()
-    for name in ('style.css','app.js','qdii.js'):
-        version=hashlib.sha256((output/name).read_bytes()).hexdigest()[:12]
-        html=html.replace('/'+name+'"','/'+name+'?v='+version+'"')
-    index.write_text(html)
-    for filename,target in [('qdii.json','qdii.json'),('qdii_status.json','qdii-status.json')]:
-        source=ROOT/'data'/filename
-        if source.exists():
-            if filename=='qdii.json':
-                from update_qdii import validate_snapshot
-                validate_snapshot(json.loads(source.read_text()))
-            shutil.copy2(source,output/target)
-    (output/'data.json').write_text(json.dumps(out,ensure_ascii=False,allow_nan=False))
-    (output/'chart.umd.js').write_text(engine.chartjs())
+    output.parent.mkdir(parents=True,exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='ndx5s-publish-',dir=output.parent) as folder:
+        staging=Path(folder)
+        for p in (ROOT/'web').iterdir():
+            if p.is_file(): shutil.copy2(p,staging/p.name)
+        # Version presentation assets so an already-open browser gets the current design.
+        index=staging/'index.html'
+        html=index.read_text()
+        for name in ('style.css','app.js','qdii.js'):
+            version=hashlib.sha256((staging/name).read_bytes()).hexdigest()[:12]
+            html=html.replace('/'+name+'"','/'+name+'?v='+version+'"')
+        index.write_text(html)
+        for filename,target in [('qdii.json','qdii.json'),('qdii_status.json','qdii-status.json')]:
+            source=ROOT/'data'/filename
+            if source.exists():
+                if filename=='qdii.json':
+                    from update_qdii import validate_snapshot
+                    validate_snapshot(json.loads(source.read_text()))
+                shutil.copy2(source,staging/target)
+        (staging/'data.json').write_text(json.dumps(out,ensure_ascii=False,allow_nan=False))
+        (staging/'chart.umd.js').write_text(engine.chartjs())
+        generated=json.loads((staging/'data.json').read_text())
+        if generated != out or generated['date'] != d['date']:
+            raise ValueError('部署数据与本次报告不一致，禁止发布')
+        # Never inherit old JSON from dist; replace complete files atomically.
+        output.mkdir(parents=True,exist_ok=True)
+        for name in ('data.json','qdii.json','qdii-status.json'):
+            stale=output/name
+            if not (staging/name).exists() and stale.exists():stale.unlink()
+        for asset in staging.iterdir():
+            os.replace(asset,output/asset.name)
     print('网站已构建：',output,'；公开模块',sum(m['available'] for m in out['modules']),'/5')
 
 if __name__ == '__main__':
